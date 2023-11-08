@@ -1,8 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
+import { Main } from "../layouts";
+import { Home, SignUp, SignIn } from "../pages";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <h1 className="text-4xl">Wislio</h1>,
+    element: <Main />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/signin",
+        element: <SignIn />,
+      },
+    ],
   },
 ]);

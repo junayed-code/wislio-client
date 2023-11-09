@@ -1,11 +1,17 @@
-import { Banner, Button, Container } from "../../components";
+import { Banner, Button, Container, Loading } from "../../components";
 import CategoriesOfBook from "./CategoriesOfBook";
+import FeaturedBooks from "./BestsellingBooks";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import { useAuth } from "../../hooks";
 
 const Home = () => {
+  const { loading } = useAuth();
+
+  if (loading) return <Loading />;
+
   return (
     <>
       <Swiper
@@ -64,6 +70,7 @@ const Home = () => {
 
       <Container.Main className="max-w-7xl mx-auto w-[95%]">
         <CategoriesOfBook />
+        <FeaturedBooks />
       </Container.Main>
     </>
   );

@@ -6,6 +6,7 @@ import {
   Section,
   Field,
   FieldPassword,
+  Loading,
 } from "../components";
 import { useAuth } from "../hooks";
 import { useFormik } from "formik";
@@ -20,32 +21,40 @@ const initialValues = {
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { currentUser, loading, createNewUser, logInWithGoogle } = useAuth();
-  if (!loading && currentUser) return navigate("/");
+  const { loading, createNewUser, logInWithGoogle } = useAuth();
 
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
-    useFormik({
-      initialValues,
-      validationSchema: signUpSchema,
-      onSubmit: async (values, { resetForm, setFieldError }) => {
-        try {
-          const { uname, email, password, photoURL } = values;
-          await createNewUser(uname, email, password, photoURL);
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+  } = useFormik({
+    initialValues,
+    validationSchema: signUpSchema,
+    onSubmit: async (values, { resetForm, setFieldError }) => {
+      try {
+        const { uname, email, password, photoURL } = values;
+        await createNewUser(uname, email, password, photoURL);
 
-          // Clear the form field.
-          resetForm();
-          navigate("/");
-        } catch (err) {
-          if (err.code === "auth/email-already-in-use") {
-            setFieldError("email", "This email is already used.");
-          }
+        // Clear the form field.
+        resetForm();
+        navigate("/");
+      } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+          setFieldError("email", "This email is already used.");
         }
-      },
-    });
+      }
+    },
+  });
 
   const handleLogInWithGoogle = () => {
     logInWithGoogle().then(() => navigate("/"));
   };
+
+  if (loading || isSubmitting) return <Loading />;
 
   return (
     <Section className="min-h-[calc(100vh-80px)] px-2 py-8">

@@ -16,7 +16,10 @@ const Home = () => {
         autoplay={{ delay: 5000, disableOnInteraction: false }}
       >
         <SwiperSlide>
-          <Banner image="/images/banner-1.jpg" height={84}>
+          <Banner
+            image="https://i.ibb.co/2NDYWV3/book-library-1.jpg"
+            height={84}
+          >
             <div className="max-w-2xl">
               <h1 className="mb-5 text-[54px] leading-none font-bold">
                 Discover Your Next Adventure in the World of Books.
@@ -29,7 +32,10 @@ const Home = () => {
           </Banner>
         </SwiperSlide>
         <SwiperSlide>
-          <Banner image="/images/banner-2.jpg" height={84}>
+          <Banner
+            image="https://i.ibb.co/n0kbhnK/book-library-2.jpg"
+            height={84}
+          >
             <div className="max-w-2xl">
               <h1 className="mb-5 text-[54px] leading-none font-bold">
                 Explore, Learn, and Immerse Yourself in Literature
@@ -43,7 +49,7 @@ const Home = () => {
           </Banner>
         </SwiperSlide>
         <SwiperSlide>
-          <Banner image="/images/banner-3.jpg" height={84}>
+          <Banner image="https://i.ibb.co/wygv2Bn/books.jpg" height={84}>
             <div className="max-w-xl">
               <h1 className="mb-5 text-[54px] leading-none font-bold">
                 Start Your Reading Journey Today

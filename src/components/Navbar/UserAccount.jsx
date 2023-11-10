@@ -9,11 +9,11 @@ export default function UserAccount() {
   const { currentUser, logOut } = useAuth();
 
   const handleLogoutUser = () => {
-    logOut().then(() => navigate("/"));
+    logOut().then(() => navigate("/signin"));
   };
 
   return (
-    <>
+    <div className="hidden lg:block">
       {currentUser ? (
         <div className="flex items-center bg-base-300 py-2 px-3 rounded-[100px]">
           <div className="avatar flex items-center">
@@ -56,6 +56,6 @@ export default function UserAccount() {
           <span>Sign In</span>
         </Link>
       )}
-    </>
+    </div>
   );
 }

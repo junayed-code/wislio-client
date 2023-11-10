@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { IoMdMenu, IoMdClose } from "react-icons/io";
+import { BsPerson } from "react-icons/bs";
+import { IoMdMenu, IoMdClose, IoIosLogOut } from "react-icons/io";
+import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
 import NavItems from "./NavItems";
-import { Button } from "../common";
-import { useTheme } from "../../hooks";
+import { useAuth, useTheme } from "../../hooks";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MobileNavItems() {
+  const navigate = useNavigate();
+  const { currentUser, logOut } = useAuth();
   const { currentTheme, changeTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -15,6 +19,9 @@ export default function MobileNavItems() {
     const theme = currentTheme === "light" ? "dark" : "light";
     changeTheme(theme);
   }
+  const handleLogoutUser = () => {
+    logOut().then(() => navigate("/signin"));
+  };
 
   return (
     <>
@@ -40,20 +47,68 @@ export default function MobileNavItems() {
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <label className="flex justify-end mb-2">
-            <span tabIndex={0} onClick={handleMenuToggle}>
-              <IoMdClose className="text-3xl cursor-pointer" />
-            </span>
-          </label>
+          <div className="p-2 space-y-4">
+            <label className="flex justify-end">
+              <span tabIndex={0} onClick={handleMenuToggle}>
+                <IoMdClose className="text-3xl cursor-pointer" />
+              </span>
+            </label>
+            {/* User profile */}
+            {currentUser && (
+              <div className="flex items-center tracking-wider p-2 rounded-md bg-secondary text-secondary-content px-4">
+                <img
+                  className="w-10 aspect-square rounded-full mr-4 ring-4 ring-base-100"
+                  src={currentUser.photoURL}
+                  alt=""
+                />
+                <div className="font-semibold text-sm">
+                  <p className="">{currentUser.displayName}</p>
+                  <p>{currentUser.email}</p>
+                </div>
+              </div>
+            )}
 
-          {/* Navbar Items */}
-          <NavItems className="menu" onItemClick={handleMenuToggle} />
-          <div className="flex items-center justify-between p-2">
-            <span className="text-base font-medium">Theme</span>
-            <span>--{">"}</span>
-            <Button onClick={handleToggleTheme} className="text-base">
-              {currentTheme === "light" ? "Light" : "Dark"}
-            </Button>
+            {/* Theme change and logout button */}
+            <ul className="text-base font-medium space-y-1">
+              {currentUser ? (
+                <li
+                  className="p-2 bg-secondary text-secondary-content rounded-md hover:bg-secondary-focus"
+                  onClick={handleMenuToggle}
+                >
+                  <button
+                    onClick={handleLogoutUser}
+                    className="inline-flex justify-between items-center text-base w-full"
+                  >
+                    Logout <IoIosLogOut />
+                  </button>
+                </li>
+              ) : (
+                <li
+                  className="p-2 bg-secondary text-secondary-content rounded-md hover:bg-secondary-focus"
+                  onClick={handleMenuToggle}
+                >
+                  <Link
+                    to="/signin"
+                    className="flex items-center justify-between hover:underline"
+                  >
+                    <span>Sign In</span>
+                    <BsPerson className="text-lg" />
+                  </Link>
+                </li>
+              )}
+              <li className="p-2 bg-secondary text-secondary-content rounded-md hover:bg-secondary-focus">
+                <button
+                  className="flex items-center justify-between w-full"
+                  onClick={handleToggleTheme}
+                >
+                  <span>Theme </span>
+                  {currentTheme === "light" ? <BiSolidMoon /> : <BiSolidSun />}
+                </button>
+              </li>
+            </ul>
+
+            {/* Navbar Items */}
+            <NavItems className="menu p-0" onItemClick={handleMenuToggle} />
           </div>
         </div>
       </div>

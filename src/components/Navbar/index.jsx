@@ -22,7 +22,7 @@ export default function Navbar({ className = "" }) {
     >
       <div className="navbar max-w-7xl mx-auto">
         {/* Navbar Start Section */}
-        <div className="navbar-start w-3/4 lg:w-1/2">
+        <div className="navbar-start">
           <Link to="/" className="text-2xl font-bold">
             <img
               className="w-32 sm:w-36"
@@ -36,16 +36,17 @@ export default function Navbar({ className = "" }) {
           <NavItems className="flex items-center space-x-6" />
         </div>
         {/* Navbar End Section */}
-        <div className="navbar-end gap-2 w-2/5 sm:w-1/2">
+        <div className="navbar-end gap-2">
           <div className="flex items-center space-x-3">
+            {/* Theme change toggle button */}
             <button
               onClick={handleToggleTheme}
               className="btn btn-circle btn-ghost p-2.5 hidden lg:inline-flex"
             >
               {currentTheme === "light" ? (
-                <BiSolidSun className="w-full h-full" />
-              ) : (
                 <BiSolidMoon className="w-full h-full" />
+              ) : (
+                <BiSolidSun className="w-full h-full" />
               )}
             </button>
             <UserAccount />
